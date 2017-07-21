@@ -17,10 +17,15 @@
       </label>
     </div>
   </form>
-  <p>Form status: {{ messageForm.content | json }}</p>
+  <p>Form status: {{ messageForm.value | json }}</p>
 
   <h2>Reply List</h2>
-  <li *ngFor="let reply of replies">
-    <span class="badge">{{reply}}</span>
-  </li>
+  <ul class="list-group">
+    <ng-container *ngFor="let reply of replies; let i = index">
+      <li [ngClass]="{'list-group-item':true, 'list-group-item-success': reply.time <= 150, 'list-group-item-warning': reply.time > 150}"
+          [@replyState]="reply.state">
+        {{reply.time | number:'1.0-0'}}ms - {{reply.message}}
+      </li>
+    </ng-container>
+  </ul>
 </div>
